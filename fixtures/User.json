@@ -1,0 +1,71 @@
+[
+{
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$6b0dO4ci21f24Q7yIP64Nu$g0W0QKUt7m9L+kkqiCC7q/WxtunLt2FJcIG9tXDGDTA=",
+        "last_login": "2023-08-31T10:08:25.891Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-08-18T08:42:21Z",
+        "email": "user0@test.com",
+        "username": "ed97dc78e2954aeaaab49122496922a6",
+        "profile_name": "Artist User Zero",
+        "date_of_birth": "2023-08-01",
+        "gender": "-",
+        "profile_photo": "default.jpg",
+        "is_artist": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$RvC9jd9hwQoLSRgIPu87kN$aRKbmwvA/7bnkB2ubjr/JMln2B+foR7hoRApbeQaPwo=",
+        "last_login": "2023-09-28T16:04:41.745Z",
+        "is_superuser": true,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-08-18T10:18:08Z",
+        "email": "minahil@test.com",
+        "username": "minahil",
+        "profile_name": "Minahil Admin",
+        "date_of_birth": "2023-10-10",
+        "gender": "F",
+        "profile_photo": "profile_photo/08351200d5356e9f2de0020f041ec310.jpg",
+        "is_artist": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 15,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$TGhtMv7uEB9lo4fPrPXwxP$s2wv3ITiLWd1hl6obONhyfc8SYr/D5HjGxcEOgak8WA=",
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-09-28T17:28:53Z",
+        "email": "user1@test.com",
+        "username": "80a9bd82f3534232a0ffee69f9a2d62d",
+        "profile_name": "User One",
+        "date_of_birth": "1998-04-03",
+        "gender": "NB",
+        "profile_photo": "default.jpg",
+        "is_artist": false,
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

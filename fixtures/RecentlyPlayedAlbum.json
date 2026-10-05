@@ -1,0 +1,38 @@
+[
+{
+    "model": "userdata.recentlyplayedalbum",
+    "pk": 28,
+    "fields": {
+        "user": 3,
+        "album": 3,
+        "date_added": "2023-09-27T16:39:17.508Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedalbum",
+    "pk": 76,
+    "fields": {
+        "user": 3,
+        "album": 2,
+        "date_added": "2023-10-02T09:13:22.971Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedalbum",
+    "pk": 77,
+    "fields": {
+        "user": 15,
+        "album": 2,
+        "date_added": "2023-10-02T09:22:08.594Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedalbum",
+    "pk": 78,
+    "fields": {
+        "user": 15,
+        "album": 3,
+        "date_added": "2023-10-02T09:22:22.517Z"
+    }
+}
+]

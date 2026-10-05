@@ -1,0 +1,114 @@
+[
+{
+    "model": "songs.genre",
+    "pk": 1,
+    "fields": {
+        "genre_name": "pop rap",
+        "color": "#7458ff"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 2,
+    "fields": {
+        "genre_name": "pop",
+        "color": "#1d3264"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 3,
+    "fields": {
+        "genre_name": "edm",
+        "color": "#e80f5b"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 4,
+    "fields": {
+        "genre_name": "electro house",
+        "color": "#e03300"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 5,
+    "fields": {
+        "genre_name": "dance pop",
+        "color": "#158a07"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 6,
+    "fields": {
+        "genre_name": "lounge",
+        "color": "#503751"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 7,
+    "fields": {
+        "genre_name": "house",
+        "color": "#b02797"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 8,
+    "fields": {
+        "genre_name": "r&b",
+        "color": "#8d67ab"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 9,
+    "fields": {
+        "genre_name": "classical",
+        "color": "#066952"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 10,
+    "fields": {
+        "genre_name": "alternative hip hop",
+        "color": "#e91629"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 11,
+    "fields": {
+        "genre_name": "rock",
+        "color": "#ff0090"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 12,
+    "fields": {
+        "genre_name": "k-pop",
+        "color": "#5F9EA0"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 13,
+    "fields": {
+        "genre_name": "country",
+        "color": "#777777"
+    }
+},
+{
+    "model": "songs.genre",
+    "pk": 14,
+    "fields": {
+        "genre_name": "indian pop",
+        "color": "#be79a5"
+    }
+}
+]

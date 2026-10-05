@@ -1,0 +1,35 @@
+[
+{
+    "model": "songs.album",
+    "pk": 2,
+    "fields": {
+        "artist": 3,
+        "album_name": "lovescene;",
+        "album_publish_year": 2020,
+        "album_cover_photo": "album_cover_photo/download_1.jpeg",
+        "genre": 2
+    }
+},
+{
+    "model": "songs.album",
+    "pk": 3,
+    "fields": {
+        "artist": 3,
+        "album_name": "believe",
+        "album_publish_year": 2012,
+        "album_cover_photo": "album_cover_photo/wp9999057-genshin-impact-landscape-wallpapers_ysZJuG5.jpg",
+        "genre": 2
+    }
+},
+{
+    "model": "songs.album",
+    "pk": 7,
+    "fields": {
+        "artist": 3,
+        "album_name": "Test Album",
+        "album_publish_year": 2022,
+        "album_cover_photo": "album_cover_photo/wp9660709-aesthetic-genshin-impact-wallpapers.jpg",
+        "genre": 4
+    }
+}
+]

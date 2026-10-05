@@ -1,0 +1,124 @@
+[
+{
+    "model": "userdata.userdata",
+    "pk": 6,
+    "fields": {
+        "user": 1,
+        "liked_albums": [
+            2,
+            3
+        ],
+        "liked_songs": [],
+        "liked_playlists": [],
+        "recently_played_albums": [],
+        "recently_played_playlists": [],
+        "artist_library": [],
+        "playlist_library": [],
+        "album_library": [],
+        "followers": [
+            3
+        ],
+        "following": [
+            3
+        ]
+    }
+},
+{
+    "model": "userdata.userdata",
+    "pk": 13,
+    "fields": {
+        "user": 3,
+        "liked_albums": [
+            2,
+            3
+        ],
+        "liked_songs": [
+            7,
+            9,
+            11,
+            12,
+            13,
+            14
+        ],
+        "liked_playlists": [
+            1,
+            2,
+            3,
+            4,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            21
+        ],
+        "recently_played_albums": [
+            28,
+            76
+        ],
+        "recently_played_playlists": [
+            22,
+            34,
+            35,
+            56
+        ],
+        "artist_library": [
+            9
+        ],
+        "playlist_library": [
+            21,
+            23,
+            27,
+            30,
+            31,
+            32,
+            33,
+            34,
+            41,
+            43,
+            44
+        ],
+        "album_library": [
+            24,
+            26
+        ],
+        "followers": [
+            1,
+            15
+        ],
+        "following": [
+            1,
+            15
+        ]
+    }
+},
+{
+    "model": "userdata.userdata",
+    "pk": 14,
+    "fields": {
+        "user": 15,
+        "liked_albums": [],
+        "liked_songs": [
+            14
+        ],
+        "liked_playlists": [],
+        "recently_played_albums": [
+            77,
+            78
+        ],
+        "recently_played_playlists": [],
+        "artist_library": [
+            10
+        ],
+        "playlist_library": [],
+        "album_library": [],
+        "followers": [
+            3
+        ],
+        "following": [
+            3
+        ]
+    }
+}
+]

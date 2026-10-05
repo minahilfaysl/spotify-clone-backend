@@ -1,0 +1,262 @@
+[
+{
+    "model": "playlists.playlist",
+    "pk": 1,
+    "fields": {
+        "user": 3,
+        "playlist_name": "My First Playlist",
+        "description": "~ here's a description ~",
+        "playlist_cover_photo": "playlist_cover_photo/wp10165100-genshin-impact-scenery-wallpapers.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 2,
+    "fields": {
+        "user": 3,
+        "playlist_name": "My Second Playlist",
+        "description": "~ here's another description ~",
+        "playlist_cover_photo": "playlist_cover_photo/wp9550686-genshin-impact-inazuma-wallpapers_MR0ZakI.jpg",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 3,
+    "fields": {
+        "user": 1,
+        "playlist_name": "Artist UZ Playlist",
+        "description": "~ just a description ~",
+        "playlist_cover_photo": "playlist_cover_photo/download.jpeg",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 4,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 0",
+        "description": "~ test 0 description ~",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-24_at_12.34.45_PM.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 5,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 1",
+        "description": "to delete",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.45_PM.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 6,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 2",
+        "description": "to delete",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.45_PM_8zmIRvE.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 7,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 3",
+        "description": "delete",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.45_PM_B3VFIvr.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 8,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 4",
+        "description": "to delete",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.45_PM_f2KZ1cJ.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 9,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 5",
+        "description": "to delete",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.45_PM_zRYTYZy.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 10,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 6",
+        "description": "delete",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_6.38.34_PM.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 11,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 7",
+        "description": "delete this",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-22_at_12.30.27_PM.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 12,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 8",
+        "description": "to delete",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-22_at_12.30.27_PM_GQT7IGj.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 13,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 9",
+        "description": "to delete",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.17_PM.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 14,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 10",
+        "description": "to delete",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.45_PM_olOWVsm.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 15,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 11",
+        "description": "delete this",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.17_PM_B25rnot.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 16,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 12",
+        "description": "delete this",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.45_PM_jruqxqw.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 17,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 13",
+        "description": "~ test 13 description ~",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.45_PM_zkqdY25.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 19,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 15",
+        "description": "~ test 13 description ~",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-21_at_1.31.45_PM_ntWVq3e.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 20,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 16",
+        "description": "~ test 13 description ~",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-08-24_at_9.33.50_PM.png",
+        "is_private": false,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+},
+{
+    "model": "playlists.playlist",
+    "pk": 21,
+    "fields": {
+        "user": 3,
+        "playlist_name": "Test 17",
+        "description": "~ test 17 description ~",
+        "playlist_cover_photo": "playlist_cover_photo/Screenshot_2023-09-27_at_4.21.22_PM.png",
+        "is_private": true,
+        "date_created": "2023-09-26T07:09:23.905Z",
+        "total_length": null
+    }
+}
+]

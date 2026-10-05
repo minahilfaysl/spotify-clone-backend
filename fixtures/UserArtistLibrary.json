@@ -1,0 +1,20 @@
+[
+{
+    "model": "userdata.userartistlibrary",
+    "pk": 9,
+    "fields": {
+        "user": 3,
+        "artist": 1,
+        "date_added": "2023-09-25T16:37:53.264Z"
+    }
+},
+{
+    "model": "userdata.userartistlibrary",
+    "pk": 10,
+    "fields": {
+        "user": 15,
+        "artist": 3,
+        "date_added": "2023-10-02T09:21:57.361Z"
+    }
+}
+]

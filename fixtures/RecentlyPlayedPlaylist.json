@@ -1,0 +1,110 @@
+[
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 8,
+    "fields": {
+        "user": 3,
+        "playlist": 3,
+        "date_added": "2023-09-21T09:52:23.806Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 9,
+    "fields": {
+        "user": 3,
+        "playlist": 1,
+        "date_added": "2023-09-21T09:54:10.244Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 10,
+    "fields": {
+        "user": 3,
+        "playlist": 10,
+        "date_added": "2023-09-21T10:53:24.274Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 17,
+    "fields": {
+        "user": 3,
+        "playlist": 11,
+        "date_added": "2023-09-21T13:36:09.369Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 18,
+    "fields": {
+        "user": 3,
+        "playlist": 12,
+        "date_added": "2023-09-21T13:38:54.897Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 19,
+    "fields": {
+        "user": 3,
+        "playlist": 13,
+        "date_added": "2023-09-21T13:39:49.212Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 20,
+    "fields": {
+        "user": 3,
+        "playlist": 14,
+        "date_added": "2023-09-21T13:40:51.250Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 21,
+    "fields": {
+        "user": 3,
+        "playlist": 15,
+        "date_added": "2023-09-21T13:43:50.416Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 22,
+    "fields": {
+        "user": 3,
+        "playlist": 16,
+        "date_added": "2023-09-21T13:46:26.169Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 34,
+    "fields": {
+        "user": 3,
+        "playlist": 17,
+        "date_added": "2023-10-01T18:49:56.353Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 35,
+    "fields": {
+        "user": 3,
+        "playlist": 21,
+        "date_added": "2023-10-01T19:53:15.713Z"
+    }
+},
+{
+    "model": "userdata.recentlyplayedplaylist",
+    "pk": 56,
+    "fields": {
+        "user": 3,
+        "playlist": 2,
+        "date_added": "2023-10-02T09:14:44.462Z"
+    }
+}
+]

@@ -1,0 +1,101 @@
+[
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 21,
+    "fields": {
+        "user": 3,
+        "playlist": 1,
+        "date_added": "2023-09-21T09:54:10.200Z"
+    }
+},
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 23,
+    "fields": {
+        "user": 3,
+        "playlist": 4,
+        "date_added": "2023-09-21T13:27:56.180Z"
+    }
+},
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 27,
+    "fields": {
+        "user": 3,
+        "playlist": 3,
+        "date_added": "2023-09-21T13:29:22.790Z"
+    }
+},
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 30,
+    "fields": {
+        "user": 3,
+        "playlist": 12,
+        "date_added": "2023-09-21T13:38:54.902Z"
+    }
+},
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 31,
+    "fields": {
+        "user": 3,
+        "playlist": 13,
+        "date_added": "2023-09-21T13:39:49.211Z"
+    }
+},
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 32,
+    "fields": {
+        "user": 3,
+        "playlist": 14,
+        "date_added": "2023-09-21T13:40:51.246Z"
+    }
+},
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 33,
+    "fields": {
+        "user": 3,
+        "playlist": 15,
+        "date_added": "2023-09-21T13:43:50.419Z"
+    }
+},
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 34,
+    "fields": {
+        "user": 3,
+        "playlist": 16,
+        "date_added": "2023-09-21T13:46:26.168Z"
+    }
+},
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 41,
+    "fields": {
+        "user": 3,
+        "playlist": 2,
+        "date_added": "2023-09-25T16:33:23.714Z"
+    }
+},
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 43,
+    "fields": {
+        "user": 3,
+        "playlist": 17,
+        "date_added": "2023-10-01T18:49:56.307Z"
+    }
+},
+{
+    "model": "userdata.userplaylistlibrary",
+    "pk": 44,
+    "fields": {
+        "user": 3,
+        "playlist": 21,
+        "date_added": "2023-10-01T19:53:15.669Z"
+    }
+}
+]

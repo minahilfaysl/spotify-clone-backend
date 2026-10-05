@@ -1,0 +1,93 @@
+[
+{
+    "model": "songs.song",
+    "pk": 7,
+    "fields": {
+        "song_name": "fallin'",
+        "album": 2,
+        "audio_file": "audio_file/sample.mp3",
+        "duration": "00:01:29",
+        "track_number": 3,
+        "is_explicit": true,
+        "total_streams": 12374
+    }
+},
+{
+    "model": "songs.song",
+    "pk": 9,
+    "fields": {
+        "song_name": "hold on tight",
+        "album": 2,
+        "audio_file": "audio_file/sample_FCsvjQH.mp3",
+        "duration": "00:01:29",
+        "track_number": 5,
+        "is_explicit": true,
+        "total_streams": 1456669
+    }
+},
+{
+    "model": "songs.song",
+    "pk": 10,
+    "fields": {
+        "song_name": "lie to me",
+        "album": 2,
+        "audio_file": "audio_file/sample_xXNutvq.mp3",
+        "duration": "00:01:29",
+        "track_number": 6,
+        "is_explicit": true,
+        "total_streams": 233448
+    }
+},
+{
+    "model": "songs.song",
+    "pk": 11,
+    "fields": {
+        "song_name": "spotlight",
+        "album": 2,
+        "audio_file": "audio_file/sample_sy5ezT6.mp3",
+        "duration": "00:01:29",
+        "track_number": 7,
+        "is_explicit": true,
+        "total_streams": 843685
+    }
+},
+{
+    "model": "songs.song",
+    "pk": 12,
+    "fields": {
+        "song_name": "u & i",
+        "album": 2,
+        "audio_file": "audio_file/sample_0ZUvPyj.mp3",
+        "duration": "00:01:29.712000",
+        "track_number": 8,
+        "is_explicit": false,
+        "total_streams": 12
+    }
+},
+{
+    "model": "songs.song",
+    "pk": 13,
+    "fields": {
+        "song_name": "chasin'",
+        "album": 2,
+        "audio_file": "audio_file/sample_hclwXWX.mp3",
+        "duration": "00:01:29",
+        "track_number": 9,
+        "is_explicit": true,
+        "total_streams": 5
+    }
+},
+{
+    "model": "songs.song",
+    "pk": 14,
+    "fields": {
+        "song_name": "All Around The World",
+        "album": 3,
+        "audio_file": "audio_file/sample_I8irsNk.mp3",
+        "duration": "00:01:29",
+        "track_number": 1,
+        "is_explicit": false,
+        "total_streams": 141588
+    }
+}
+]

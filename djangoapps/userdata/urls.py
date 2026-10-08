@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path
 from django.urls import path
 from rest_framework import routers
 from djangoapps.userdata.views import (
@@ -23,17 +23,17 @@ router.register(r'following', FollowingViewSet, basename='following')
 
 urlpatterns = [
     # returns list of artists
-    url(r'^user_library/<str:user__username>/retrieve_artists',
+    re_path(r'^user_library/<str:user__username>/retrieve_artists',
         UserLibraryViewSet.as_view({'put': 'retrieve_artists'}),
         name='retrieve-artists'),
 
     # updates recently played albums list
-    url(r'^recently_played/<str:user__username>/update_albums',
+    re_path(r'^recently_played/<str:user__username>/update_albums',
         RecentlyPlayedViewSet.as_view({'put': 'update_albums'}),
         name='update-recents-album'),
 
     # updates recently played playlists list
-    url(r'^recently_played/<str:user__username>/update_playlists',
+    re_path(r'^recently_played/<str:user__username>/update_playlists',
         RecentlyPlayedViewSet.as_view({'put': 'update_playlists'}),
         name='update-recents-playlist'),
 

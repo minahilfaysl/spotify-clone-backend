@@ -31,44 +31,34 @@ APIs for the website include:
 
 ## Clone the repository
 
-Run the following commands to clone the repository and test out the song-album branch.
+`$ git clone https://github.com/minahilfaysl/spotify-clone-backend.git`
 
-`$ git init`
-
-`$ git clone https://gitlab.arbisoft.com/minahil.faisal/final-project-backend.git`
-
-`$ cd final-project-backend`
-
-`$ git pull origin playlist`
+`$ cd spotify-clone-backend`
 
 ## Installation / Project Setup
-This Django project uses pyenv, Django version 3.2 and python version 3.9.7
+This Django project uses Django 5.2 (LTS) and Python 3.12 or newer.
 
-First, create a python environment to work in based on the python version.
+Create and activate a virtual environment:
 
-`$ pyenv virtualenv 3.9.7 test-env`
-
-Activate the environment
-
-`$ pyenv activate test-env`
+`$ python3 -m venv .venv && source .venv/bin/activate`
 
 Install the requirements to run the project
 
-`$ pip install -r requirements/requirements.txt`
+`$ pip install -r requirements.txt`
 
-Make migrations
+Apply migrations
 
 `$ python manage.py migrate`
+
+Load the demo data (users, albums, songs, playlists):
+
+`$ python manage.py seed_demo`
 
 For testing out localhost:8000/admin, create a superuser.
 
 `$ python manage.py createsuperuser`
 
 **Note:** date-of-birth format for creating a superuser through the terminal is YYYY-MM-DD. Gender can be 'M' or 'F' for simplicity.
-
-Now, load fixture data into the apps using this command:
-
-` python manage.py loaddata fixtures/User.json --app users.User && python manage.py loaddata fixtures/Genre.json --app songs.Genre && python manage.py loaddata fixtures/Album.json --app songs.Album && python manage.py loaddata fixtures/Song.json --app songs.Song && python manage.py loaddata fixtures/Playlist.json --app playlists.Playlist && python manage.py loaddata fixtures/Track.json --app playlists.Track && python manage.py loaddata fixtures/UserData.json --app userdata.UserData && python manage.py loaddata fixtures/RecentlyPlayedAlbum.json --app userdata.RecentlyPlayedAlbum && python manage.py loaddata fixtures/RecentlyPlayedPlaylist.json --app userdata.RecentlyPlayedPlaylist && python manage.py loaddata fixtures/UserAlbumLibrary.json --app userdata.UserAlbumLibrary && python manage.py loaddata fixtures/UserArtistLibrary.json --app userdata.UserArtistLibrary && python manage.py loaddata fixtures/UserPlaylistLibrary.json --app userdata.UserPlaylistLibrary `
 
 Now, run the server
 
@@ -122,5 +112,26 @@ UserData: http://localhost:8000/api/userdata/ +
 
 Search: http://localhost:8000/api/userdata/search/<search_keyword>/
 
+## Deployment (Vercel + Neon + Cloudinary)
+
+The API deploys to Vercel as a Django app. Uploaded media is stored on
+Cloudinary and the database is Postgres (e.g. Neon).
+
+Environment variables (Vercel → Project → Settings → Environment Variables):
+
+| Variable | Value |
+|---|---|
+| `SECRET_KEY` | a long random string |
+| `DATABASE_URL` | Postgres connection string (Neon: use the pooled one) |
+| `CLOUDINARY_URL` | from the Cloudinary dashboard (`cloudinary://key:secret@cloud`) |
+| `FRONTEND_URLS` | deployed frontend URL(s), comma-separated, no trailing slash |
+
+On every deploy, `vercel_build.py` runs migrations and, on an empty database,
+loads the demo fixtures and uploads the demo media to Cloudinary. Vercel limits
+request bodies to 4.5 MB, so uploads (songs, photos) must be under that size.
+
+Without these variables (local development), the app uses SQLite and the
+local `media/` folder.
+
 ## Project status
-Completed. Under Review.
+Completed and deployed.

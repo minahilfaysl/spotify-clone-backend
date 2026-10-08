@@ -120,3 +120,6 @@ dmypy.json
 # media/profile_photo/
 # media/playlist_cover_photo/
 # media/audio_file/
+
+# collectstatic output
+staticfiles/

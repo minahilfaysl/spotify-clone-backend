@@ -1,7 +1,7 @@
-from PIL import Image
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+
+from backend.images import crop_new_upload_to_square
 
 GENDER_CHOICES = [
     ("M", "Male"),
@@ -38,22 +38,5 @@ class User(AbstractUser):  # custom user model defined here
         return self.profile_name
 
     def save(self, *args, **kwargs):
-        super().save()
-
-        img = Image.open(self.profile_photo.path)
-        width, height = img.size
-
-        if height > 400 or width > 400 or width != height:
-            # crop the image
-            if width == height:
-                resized_image = img
-            offset = int(abs(height-width)/2)
-            if width > height:
-                resized_image = img.crop([offset, 0, width-offset, height])
-            else:
-                resized_image = img.crop([0, offset, width, height-offset])
-
-            # resize image and save
-            output_size = (400, 400)
-            resized_image.thumbnail(output_size)
-            resized_image.save(self.profile_photo.path)
+        crop_new_upload_to_square(self.profile_photo)
+        super().save(*args, **kwargs)

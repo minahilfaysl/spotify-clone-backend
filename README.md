@@ -38,6 +38,10 @@ APIs for the website include:
 ## Installation / Project Setup
 This Django project uses Django 5.2 (LTS) and Python 3.12 or newer.
 
+**No environment variables are needed for local development.** With nothing
+set, the app runs in debug mode with a local SQLite database, the local
+`media/` folder and a development-only secret key.
+
 Create and activate a virtual environment:
 
 `$ python3 -m venv .venv && source .venv/bin/activate`
@@ -66,15 +70,17 @@ Now, run the server
 
 You can login using the following test credentials:
 
-**username:** minahil (account with admin priviledges)
-
+**username:** minahil (account with admin privileges locally)
 **password:** testing321
 
-or you can create a new account (without admin priviledges) and search for "User" or Minahil Admin.
+In production this demo account is read-only and has no admin access (see
+[Demo accounts](#demo-accounts-are-read-only-in-production)).
+
+or you can create a new account (without admin privileges) and search for "User" or Minahil Admin.
 
 ## Active Routes
 
-All routes are updated and posted with updated on [Postman](https://red-star-992104.postman.co/workspace/Arbisoft---Training~9426c582-d5a1-41d3-bbdc-cef862074158/collection/29007347-e52fc81a-52ac-4b59-9833-17c560295696?action=share&creator=29007347). 
+Setup for testing and tracking on Postman.
 
 Login: http://localhost:8000/api/users/login/
 
@@ -126,12 +132,19 @@ Environment variables (Vercel → Project → Settings → Environment Variables
 | `CLOUDINARY_URL` | from the Cloudinary dashboard (`cloudinary://key:secret@cloud`) |
 | `FRONTEND_URLS` | deployed frontend URL(s), comma-separated, no trailing slash |
 
-On every deploy, `vercel_build.py` runs migrations and, on an empty database,
-loads the demo fixtures and uploads the demo media to Cloudinary. Vercel limits
-request bodies to 4.5 MB, so uploads (songs, photos) must be under that size.
+No Neon or Cloudinary CLI, SDK setup or config files are needed; the app only
+reads these variables.
 
-Without these variables (local development), the app uses SQLite and the
-local `media/` folder.
+On every deploy, `vercel_build.py` runs migrations, loads the demo fixtures
+into an empty database, and uploads the demo media to Cloudinary if it isn't
+there yet. It checks the Cloudinary credentials first and fails with a clear
+message if they're wrong. Vercel limits request bodies to 4.5 MB, so uploads
+(songs, photos) must be under that size.
+
+To create your own admin account in production (the demo accounts can't use
+`/admin/`), run once from this folder, with the production connection string:
+
+`$ DATABASE_URL="<neon connection string>" python manage.py createsuperuser`
 
 ### Demo accounts are read-only in production
 

@@ -3,6 +3,14 @@ from django.urls import path, include, re_path
 from django.views.static import serve
 from django.conf import settings
 
+from djangoapps.users.permissions import is_demo_account
+
+# The public demo logins never get Django admin access, even though the seeded
+# "minahil" account is a superuser.
+_admin_has_permission = admin.site.has_permission
+admin.site.has_permission = (
+    lambda request: _admin_has_permission(request) and not is_demo_account(request.user))
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('djangoapps.users.urls')),

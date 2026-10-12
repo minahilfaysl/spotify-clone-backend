@@ -110,13 +110,9 @@ class UpdateUserProfileSerializer(serializers.ModelSerializer):
         fields = ('profile_name', 'profile_photo')
 
     def update(self, instance, validated_data):
-        user = self.context['request'].user
-
-        if user.username != instance.username:
-            raise serializers.ValidationError({
-                "authorize": "You dont have permission for this user."})
-
-        instance.profile_name = validated_data['profile_name']
+        # ownership is enforced by the IsSelf permission on the view (403)
+        instance.profile_name = validated_data.get(
+            'profile_name', instance.profile_name)
         # uploading a profile picture is optional
         try:
             instance.profile_photo = validated_data['profile_photo']

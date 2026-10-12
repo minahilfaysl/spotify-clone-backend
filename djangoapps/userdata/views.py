@@ -4,7 +4,9 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.db import IntegrityError
+from djangoapps.users.permissions import OwnsUserDataInURL
+from django.db import IntegrityError, transaction
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from djangoapps.songs.models import Song, Album
 from djangoapps.playlists.models import Playlist
@@ -39,27 +41,38 @@ from djangoapps.userdata.serializers import (
 User = get_user_model()
 
 
-class LikedAlbumsViewSet(viewsets.ModelViewSet):
+
+class UserDataViewSet(viewsets.ModelViewSet):
+    """
+    Base for /api/userdata/<endpoint>/<username>/ routes.
+    - Only the user themself can change (and, unless public_read, read) them.
+    - Listing everyone's data, creating and deleting UserData rows over the
+      API are disabled; only GET and PUT are exposed.
+    """
+    queryset = UserData.objects.select_related('user')
+    permission_classes = [OwnsUserDataInURL]
+    lookup_field = 'user__username'
+    http_method_names = ['get', 'put', 'head', 'options']
+    public_read = False
+
+    def get_userdata(self, username):
+        return get_object_or_404(UserData, user__username=username)
+
+
+class LikedAlbumsViewSet(UserDataViewSet):
     """
     ViewSet for viewing and editing like_albums
     POST: Add to liked_albums, remove from liked_albums
     GET: View if an album was liked by a user
     """
-    queryset = UserData.objects.prefetch_related('user')
     serializer_class = LikedAlbumsSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'user__username'
 
     def update(self, request, user__username=None):
         try:
             album_id = request.data['liked_albums']
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
-            user = User.objects.filter(
-                username=user__username
-            ).first()
-            new_album = Album.objects.filter(id=album_id).first()
+            userdata = self.get_userdata(user__username)
+            user = request.user
+            new_album = get_object_or_404(Album, id=album_id)
 
             # create new model object to add to albums library
             try:
@@ -91,30 +104,26 @@ class LikedAlbumsViewSet(viewsets.ModelViewSet):
                     data={"status": "added to liked albums"},
                     status=status.HTTP_200_OK
                 )
-        except UserData.DoesNotExist:
-            # if userdata object does not exist, create it
-            # TO DO: fix this, this doesn't work the way I expected it to
-            return self.create(request=request)
+        except KeyError:
+            return Response(
+                data={"status": "missing field in request body"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
-class LikedSongsViewSet(viewsets.ModelViewSet):
+class LikedSongsViewSet(UserDataViewSet):
     """
     ViewSet for viewing and editing liked_songs
     Add to liked_songs, remove from liked_songs
     View if a song was liked by a user
     """
-    queryset = UserData.objects.prefetch_related('user')
     serializer_class = LikedSongsSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'user__username'
 
     def update(self, request, user__username=None):
         try:
             song_id = request.data['liked_songs']
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
-            new_song = Song.objects.filter(id=song_id).first()
+            userdata = self.get_userdata(user__username)
+            new_song = get_object_or_404(Song, id=song_id)
 
             liked_list = userdata.liked_songs.all()
             if new_song in liked_list:
@@ -129,32 +138,27 @@ class LikedSongsViewSet(viewsets.ModelViewSet):
                     data={"status": "added to liked songs"},
                     status=status.HTTP_200_OK
                 )
-        except UserData.DoesNotExist:
-            # if userdata object does not exist, create it
-            return self.create(request=request)
+        except KeyError:
+            return Response(
+                data={"status": "missing field in request body"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
-class LikedPlaylistsViewSet(viewsets.ModelViewSet):
+class LikedPlaylistsViewSet(UserDataViewSet):
     """
     ViewSet for viewing and editing liked_playlists
     Add to liked_playlists, remove from liked_playlists
     View if a playlist was liked by a user
     """
-    queryset = UserData.objects.prefetch_related('user')
     serializer_class = LikedPlaylistsSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'user__username'
 
     def update(self, request, user__username=None):
         try:
             playlist_id = request.data['liked_playlists']
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
-            user = User.objects.filter(
-                username=user__username
-            ).first()
-            new_playlist = Playlist.objects.filter(id=playlist_id).first()
+            userdata = self.get_userdata(user__username)
+            user = request.user
+            new_playlist = get_object_or_404(Playlist, id=playlist_id)
 
             # create new model object to add to albums library
             try:
@@ -186,21 +190,20 @@ class LikedPlaylistsViewSet(viewsets.ModelViewSet):
                     data={"status": "added to liked playlists"},
                     status=status.HTTP_200_OK
                 )
-        except UserData.DoesNotExist:
-            # if userdata object does not exist, create it
-            return self.create(request=request)
+        except KeyError:
+            return Response(
+                data={"status": "missing field in request body"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
-class RecentlyPlayedViewSet(viewsets.ModelViewSet):
+class RecentlyPlayedViewSet(UserDataViewSet):
     """
     ViewSet for viewing and editing recently played albums / playlists
     Add to recently played, remove from recently played
     Storing maximum of the 6 most recent records each
     """
-    queryset = UserData.objects.prefetch_related('user')
     serializer_class = RecentlyPlayedSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'user__username'
 
     def retrieve(self, request, user__username=None):
         '''
@@ -208,9 +211,7 @@ class RecentlyPlayedViewSet(viewsets.ModelViewSet):
         based on their timestamps
         '''
         try:
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
+            userdata = self.get_userdata(user__username)
 
             recents_list = []
 
@@ -269,12 +270,8 @@ class RecentlyPlayedViewSet(viewsets.ModelViewSet):
         six most recent records for this many-to-many field
         '''
         try:
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
-            user = User.objects.filter(
-                username=user__username
-            ).first()
+            userdata = self.get_userdata(user__username)
+            user = request.user
 
             try:
                 album_id = request.data['recently_played_albums']
@@ -283,7 +280,7 @@ class RecentlyPlayedViewSet(viewsets.ModelViewSet):
 
             # for albums
             if album_id:
-                recent_album = Album.objects.filter(id=album_id).first()
+                recent_album = get_object_or_404(Album, id=album_id)
                 # create new model object to add to albums
                 try:
                     new_object = RecentlyPlayedAlbum.objects.create(
@@ -323,9 +320,11 @@ class RecentlyPlayedViewSet(viewsets.ModelViewSet):
                     data={"status": "please enter a valid album id"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-        except UserData.DoesNotExist:
-            # if userdata object does not exist, create it
-            return self.create(request=request)
+        except KeyError:
+            return Response(
+                data={"status": "missing field in request body"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
     @action(detail=True, methods=['put'])
     def update_playlists(self, request, user__username=None):
@@ -334,12 +333,8 @@ class RecentlyPlayedViewSet(viewsets.ModelViewSet):
         six most recent records for this many-to-many field
         '''
         try:
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
-            user = User.objects.filter(
-                username=user__username
-            ).first()
+            userdata = self.get_userdata(user__username)
+            user = request.user
 
             try:
                 playlist_id = request.data['recently_played_playlists']
@@ -348,9 +343,7 @@ class RecentlyPlayedViewSet(viewsets.ModelViewSet):
 
             # for playlists
             if playlist_id:
-                recent_playlist = Playlist.objects.filter(
-                    id=playlist_id
-                ).first()
+                recent_playlist = get_object_or_404(Playlist, id=playlist_id)
                 # create new model object to add to albums
                 try:
                     new_object = RecentlyPlayedPlaylist.objects.create(
@@ -393,19 +386,18 @@ class RecentlyPlayedViewSet(viewsets.ModelViewSet):
                     data={"status": "please enter a valid album id"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-        except UserData.DoesNotExist:
-            # if userdata object does not exist, create it
-            return self.create(request=request)
+        except KeyError:
+            return Response(
+                data={"status": "missing field in request body"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
-class UserLibraryViewSet(viewsets.ModelViewSet):
+class UserLibraryViewSet(UserDataViewSet):
     """
     ViewSet for viewing and editing user library items
     """
-    queryset = UserData.objects.prefetch_related('user')
     serializer_class = UserLibrarySerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'user__username'
 
     @action(detail=True, methods=['get'])
     def retrieve_artists(self, request, user__username=None):
@@ -413,9 +405,7 @@ class UserLibraryViewSet(viewsets.ModelViewSet):
         lists a user's artists based on the timestamps they were followed on
         '''
         try:
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
+            userdata = self.get_userdata(user__username)
 
             artists = (userdata
                        .artist_library.all()
@@ -453,9 +443,7 @@ class UserLibraryViewSet(viewsets.ModelViewSet):
         based on the timestamps they were liked on / followed on
         '''
         try:
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
+            userdata = self.get_userdata(user__username)
 
             library_items = []
 
@@ -518,13 +506,9 @@ class UserLibraryViewSet(viewsets.ModelViewSet):
     def update(self, request, user__username=None):
         try:
             playlist_id = request.data['playlist_library']
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
-            user = User.objects.filter(
-                username=user__username
-            ).first()
-            new_playlist = Playlist.objects.filter(id=playlist_id).first()
+            userdata = self.get_userdata(user__username)
+            user = request.user
+            new_playlist = get_object_or_404(Playlist, id=playlist_id)
 
             # create new model object to add to albums library
             try:
@@ -558,111 +542,67 @@ class UserLibraryViewSet(viewsets.ModelViewSet):
                 data={"status": "added to playlists library"},
                 status=status.HTTP_200_OK
             )
-        except UserData.DoesNotExist:
-            # if userdata object does not exist, create it
-            return self.create(request=request)
+        except KeyError:
+            return Response(
+                data={"status": "missing field in request body"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
-class FollowersViewSet(viewsets.ModelViewSet):
+class FollowersViewSet(UserDataViewSet):
     """
-    ViewSet for viewing and editing followers for a user
-    Add to followers, remove from followers using their username
-    List a users followers
+    Read-only list of a user's followers (public).
+    Followers are updated automatically when someone follows or unfollows
+    through the following endpoint, so both sides always stay in sync.
     """
-    queryset = UserData.objects.prefetch_related('user')
     serializer_class = FollowersSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'user__username'
-
-    def update(self, request, user__username=None):
-        ''' takes the username of the follower and adds or removes them from
-        the user's list of followers depending on if the follower is already
-        present in the list '''
-        try:
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
-            follower_username = request.data['followers']
-            new_follower = User.objects.filter(
-                username=follower_username
-            ).first()
-
-            follower_list = userdata.followers.all()
-            if new_follower in follower_list:
-                userdata.followers.remove(new_follower)
-                return Response(
-                    data={"status": "removed from followers"},
-                    status=status.HTTP_200_OK
-                )
-            else:
-                userdata.followers.add(new_follower)
-                return Response(
-                    data={"status": "added to followers"},
-                    status=status.HTTP_200_OK
-                )
-        except UserData.DoesNotExist:
-            # if userdata object does not exist, create it
-            return self.create(request=request)
+    public_read = True
+    http_method_names = ['get', 'head', 'options']
 
 
-class FollowingViewSet(viewsets.ModelViewSet):
+class FollowingViewSet(UserDataViewSet):
     """
-    ViewSet for viewing and editing following for a user
-    Add to following, remove from following
-    List a users following
+    ViewSet for viewing (public) and editing (own only) who a user follows.
+    PUT {"following": "<username>"} toggles following that user.
     """
-    queryset = UserData.objects.prefetch_related('user')
     serializer_class = FollowingSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    lookup_field = 'user__username'
+    public_read = True
 
     def update(self, request, user__username=None):
-        ''' takes the username of the user to follow and adds or removes them
-        from the user's list of followed users depending on if the followed
-        user is already present in the list '''
-        try:
-            following_username = request.data['following']
-            userdata = UserData.objects.filter(
-                user__username=user__username
-            ).first()
-            new_following = User.objects.filter(
-                username=following_username
-            ).first()
-            user = User.objects.filter(
-                username=user__username
-            ).first()
+        """toggle following another user; updates both users' lists together"""
+        if 'following' not in request.data:
+            return Response(
+                data={"status": "missing field in request body"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        user = request.user
+        userdata = self.get_userdata(user__username)
+        target = get_object_or_404(User, username=request.data['following'])
+        if target == user:
+            return Response(
+                data={"status": "you can't follow yourself"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        target_userdata, _ = UserData.objects.get_or_create(user=target)
 
-            following_list = userdata.following.all()
-            if new_following in following_list:
-                userdata.following.remove(new_following)
-                # only remove from artist library if the user is an artist
-                if new_following.is_artist:
-                    duplicate_object = UserArtistLibrary.objects.filter(
-                        user=user,
-                        artist=new_following,
-                    ).first()
-                    userdata.artist_library.remove(duplicate_object)
-                    duplicate_object.delete()
-                return Response(
-                    data={"status": "removed from following"},
-                    status=status.HTTP_200_OK
-                )
+        # all-or-nothing: my "following" and their "followers" never disagree
+        with transaction.atomic():
+            if userdata.following.filter(pk=target.pk).exists():
+                userdata.following.remove(target)
+                target_userdata.followers.remove(user)
+                # artists also live in the follower's library
+                UserArtistLibrary.objects.filter(user=user, artist=target).delete()
+                result = "removed from following"
             else:
-                userdata.following.add(new_following)
-                # only add to artist library if the user is an artist
-                if new_following.is_artist:
-                    new_object = UserArtistLibrary.objects.create(
-                        user=user,
-                        artist=new_following,
-                    )
-                    userdata.artist_library.add(new_object)
-                return Response(
-                    data={"status": "added to following"},
-                    status=status.HTTP_200_OK
-                )
-        except UserData.DoesNotExist:
-            # if userdata object does not exist, create it
-            return self.create(request=request)
+                userdata.following.add(target)
+                target_userdata.followers.add(user)
+                if target.is_artist:
+                    library_item, _ = UserArtistLibrary.objects.get_or_create(
+                        user=user, artist=target)
+                    userdata.artist_library.add(library_item)
+                result = "added to following"
+
+        return Response(data={"status": result}, status=status.HTTP_200_OK)
 
 
 class RetrieveSearchResultsView(generics.RetrieveAPIView):
@@ -674,7 +614,6 @@ class RetrieveSearchResultsView(generics.RetrieveAPIView):
         5. profile // users that are not artists
     '''
     '''class based view to get user details for profile headers'''
-    queryset = UserData.objects.prefetch_related('user')
     permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_field = 'keyword'
 
@@ -686,63 +625,65 @@ class RetrieveSearchResultsView(generics.RetrieveAPIView):
             "playlists": [],
             "profiles": [],
         }
+        # each category is limited in SQL (LIMIT), not after serializing
+        # every match in Python
         # get songs first
         queryset = Song.objects.filter(
             song_name__icontains=keyword,
-        )
+        ).select_related('album__artist', 'album__genre')[:5]
         serializer = SongSerializer(
             queryset,
             many=True,
             context={'request': request}
         )
-        search_results['songs'] = serializer.data[0:5]
+        search_results['songs'] = serializer.data
 
         # get artists
         queryset = User.objects.filter(
             profile_name__icontains=keyword,
             is_artist=True,
-        )
+        )[:10]
         serializer = UserProfileDataSerializer(
             queryset,
             many=True,
             context={'request': request}
         )
-        search_results['artists'] = serializer.data[0:10]
+        search_results['artists'] = serializer.data
 
         # get albums
         queryset = Album.objects.filter(
             album_name__icontains=keyword
-        ).order_by('-album_publish_year')
+        ).select_related('artist', 'genre').order_by('-album_publish_year')[:10]
         serializer = AlbumSerializer(
             queryset,
             many=True,
             context={'request': request}
         )
-        search_results['albums'] = serializer.data[0:10]
+        search_results['albums'] = serializer.data
 
         # get playlists
         queryset = Playlist.objects.filter(
             playlist_name__icontains=keyword,
             is_private=False,
-        ).order_by('-date_created')
+        ).order_by('-date_created')[:10]
         serializer = PlaylistSerializer(
             queryset,
             many=True,
             context={'request': request}
         )
-        search_results['playlists'] = serializer.data[0:10]
+        search_results['playlists'] = serializer.data
 
         # get user profiles
         queryset = User.objects.filter(
             profile_name__icontains=keyword,
             is_artist=False,
-        )
+        )[:10]
         serializer = UserProfileDataSerializer(
             queryset,
             many=True,
             context={'request': request}
         )
-        search_results['profiles'] = serializer.data[0:10]
+        search_results['profiles'] = serializer.data
 
         return Response(
             data={'results': search_results},

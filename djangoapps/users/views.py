@@ -1,4 +1,5 @@
-from rest_framework import generics
+from django.db import transaction
+from rest_framework import generics, status
 from rest_framework.permissions import (
     AllowAny,
     IsAuthenticated,
@@ -16,6 +17,7 @@ from djangoapps.users.serializers import (
     UserPermissionSerializer,
 )
 from djangoapps.userdata.models import UserData
+from djangoapps.users.permissions import IsSelf, DemoAccountsReadOnly
 
 User = get_user_model()
 
@@ -36,21 +38,21 @@ class SignupView(generics.CreateAPIView):
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
+        # invalid data -> 400 with the field errors
+        serializer.is_valid(raise_exception=True)
 
-        if (serializer.is_valid()):
+        # the user and their UserData row are created together or not at all
+        with transaction.atomic():
             user = serializer.save()
-            # create user data for on making a new user object
-            userdata = UserData(user=user)
-            userdata.save()
-            return Response({
-                'token': get_tokens_for_user(user),
-                'user': UserProfileDataSerializer(
-                    user,
-                    context={'request': request}
-                ).data,
-            })
+            UserData.objects.create(user=user)
 
-        return Response(serializer.errors)
+        return Response({
+            'token': get_tokens_for_user(user),
+            'user': UserProfileDataSerializer(
+                user,
+                context={'request': request}
+            ).data,
+        }, status=status.HTTP_201_CREATED)
 
 
 class EmailTokenObtainPairView(TokenObtainPairView):
@@ -65,7 +67,7 @@ class UpdateProfileView(generics.UpdateAPIView):
     picture'''
     queryset = User.objects.all()
     lookup_field = "username"
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsSelf, DemoAccountsReadOnly)
     serializer_class = UpdateUserProfileSerializer
 
 
@@ -73,7 +75,7 @@ class UpdateUserPermissionsView(generics.UpdateAPIView):
     '''class based view to change user permissions - is_artist'''
     queryset = User.objects.all()
     lookup_field = "username"
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsSelf, DemoAccountsReadOnly)
     serializer_class = UserPermissionSerializer
 
 

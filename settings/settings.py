@@ -179,7 +179,7 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        # session auth is only used by the browsable API / admin (CSRF-protected)
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
@@ -227,7 +227,15 @@ CORS_ALLOW_HEADERS = (
     "x-requested-with",
 )
 
+# Short-lived access tokens; the frontend renews them with the refresh token.
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=20),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=20),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
+
+# The seeded demo logins are public, so in production they can browse and play
+# but not change or delete demo content (and get no admin access).
+# Override with a comma-separated DEMO_READ_ONLY_USERS env var ('' disables).
+DEFAULT_DEMO_USERS = 'minahil,ed97dc78e2954aeaaab49122496922a6,80a9bd82f3534232a0ffee69f9a2d62d'
+DEMO_READ_ONLY_USERS = set(env_list(
+    'DEMO_READ_ONLY_USERS', '' if DEBUG else DEFAULT_DEMO_USERS))

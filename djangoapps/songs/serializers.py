@@ -16,6 +16,10 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class AlbumSerializer(serializers.ModelSerializer):
+    # always the logged-in artist, never taken from the request body; the
+    # default keeps the (artist, album_name) uniqueness check working
+    artist = serializers.PrimaryKeyRelatedField(
+        read_only=True, default=serializers.CurrentUserDefault())
     artist_details = ArtistSerializer(
         source='artist',
         many=False,
@@ -33,3 +37,10 @@ class SongSerializer(serializers.ModelSerializer):
     class Meta:
         model = Song
         fields = '__all__'
+
+    def validate_album(self, album):
+        request = self.context.get('request')
+        if request and album.artist_id != request.user.id:
+            raise serializers.ValidationError(
+                'You can only add songs to your own albums.')
+        return album

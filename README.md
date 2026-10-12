@@ -133,5 +133,28 @@ request bodies to 4.5 MB, so uploads (songs, photos) must be under that size.
 Without these variables (local development), the app uses SQLite and the
 local `media/` folder.
 
+### Demo accounts are read-only in production
+
+The seeded demo logins (e.g. `minahil` / `testing321`) are public, so in
+production they can browse, play, like and follow, but cannot edit or delete
+the demo albums, songs, playlists or profile, and get no Django admin access.
+Visitors can sign up for their own account to try uploading and editing.
+Set `DEMO_READ_ONLY_USERS` (comma-separated usernames, or empty to disable) to
+change this. Locally (`DEBUG=True`) demo accounts are not restricted.
+
+## Permissions
+
+- Anyone can read public content: albums, songs, genres, public playlists,
+  profiles, followers/following, search.
+- Only the owner can change or delete their playlists (and tracks in them),
+  albums and songs (artists only), and profile.
+- Private playlists are only visible to their owner.
+- Likes, library and recently played are private to their owner.
+- Genres are managed by admins only.
+
+## Running the tests
+
+`$ python manage.py test djangoapps`
+
 ## Project status
 Completed and deployed.

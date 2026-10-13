@@ -169,5 +169,17 @@ change this. Locally (`DEBUG=True`) demo accounts are not restricted.
 
 `$ python manage.py test djangoapps`
 
+## Future improvements
+
+- **Password reset:** add reset endpoints using Django's built-in password-reset tokens, and
+  send the reset link through an email service (e.g. Resend or SendGrid, configured with an
+  API key on Vercel). The frontend's "Forgot your password?" link is commented out until then.
+- **Remember Me:** handled in the frontend (choose `localStorage` or `sessionStorage`); no
+  backend change needed. Optionally rotate refresh tokens (`ROTATE_REFRESH_TOKENS`) so active
+  users stay logged in past 7 days.
+- Redesign `UserData` into explicit tables (e.g. a `Follow` model, `SongLike`).
+- Direct signed uploads to Cloudinary, to lift the 4 MB upload limit.
+- Run the test suite in CI (GitHub Actions) and add error monitoring (Sentry).
+
 ## Project status
 Completed and deployed.
